@@ -16,3 +16,14 @@ services:
     #      do so here as this is a tutorial.
     environment:
       POSTGRES_PASSWORD: changemeinprod!
+
+
+  adminer:
+    # The Docker image for Adminer, again using the latest.
+    image: adminer:latest
+    # Restart if killed.
+    restart: always
+    # Adminer runs on 8080, we'll map that to 8888 as our
+    # app runs on 8080.
+    ports:
+      - 8888:8080
