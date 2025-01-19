@@ -6,9 +6,13 @@ import com.meet.bookstore.services.AuthorServices
 import org.springframework.stereotype.Service
 
 @Service
-interface AuthorServicesImpl(private val authorRepository: AuthorRepository) : AuthorServices {
+class AuthorServicesImpl(private val authorRepository: AuthorRepository) : AuthorServices {
 
     override fun save(authorEntity: AuthorEntity): AuthorEntity {
         return authorRepository.save(authorEntity)
+    }
+
+    override fun list(): List<AuthorEntity> {
+      return authorRepository.findAll()
     }
 }
