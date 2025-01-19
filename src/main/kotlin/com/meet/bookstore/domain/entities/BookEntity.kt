@@ -1,4 +1,4 @@
-package com.meet.bookstore.domain
+package com.meet.bookstore.domain.entities
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne
 
 @Entity
 @Table(name = "books")
-data class Book(
+data class BookEntity(
     @Id
     @Column(name = "isbn")
     var isbn: String,
@@ -22,5 +22,5 @@ data class Book(
     var image: String,
     @ManyToOne(cascade = [CascadeType.DETACH])
     @JoinColumn(name = "author_id")
-    var author: Author
+    var authorEntity: AuthorEntity
 )
