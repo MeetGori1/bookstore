@@ -1,9 +1,11 @@
 package com.meet.bookstore.controllers
 
 import com.meet.bookstore.domain.dtos.AuthorDto
+import com.meet.bookstore.domain.dtos.AuthorUpdateRequestDto
 import com.meet.bookstore.services.AuthorServices
 import com.meet.bookstore.toAuthorDto
 import com.meet.bookstore.toAuthorEntity
+import com.meet.bookstore.toAuthorUpdateRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -43,6 +45,17 @@ class AuthorsController(private val authorServices: AuthorServices) {
     fun fullUpdateAuthor(@PathVariable("id") id: Long, @RequestBody authorDto: AuthorDto): ResponseEntity<AuthorDto> {
         return try {
             val updatedAuthor = authorServices.fullUpdate(id, authorDto.toAuthorEntity())
+            ResponseEntity(updatedAuthor.toAuthorDto(), HttpStatus.OK)
+
+        } catch(ex: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @PutMapping(path=["/{id}"])
+    fun partialUpdateAuthor(@PathVariable("id") id: Long, @RequestBody authorUpdateDto: AuthorUpdateRequestDto): ResponseEntity<AuthorDto> {
+        return try {
+            val updatedAuthor = authorServices.partialUpdate(id, authorUpdateDto.toAuthorUpdateRequest())
             ResponseEntity(updatedAuthor.toAuthorDto(), HttpStatus.OK)
 
         } catch(ex: IllegalStateException) {

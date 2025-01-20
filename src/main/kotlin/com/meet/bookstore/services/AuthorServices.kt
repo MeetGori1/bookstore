@@ -1,5 +1,6 @@
 package com.meet.bookstore.services
 
+import com.meet.bookstore.domain.AuthorUpdateRequest
 import com.meet.bookstore.domain.entities.AuthorEntity
 
 interface AuthorServices {
@@ -10,5 +11,7 @@ interface AuthorServices {
 
     fun get(id: Long): AuthorEntity?
 
-    fun fullUpdate(id: Long,authorEntity: AuthorEntity): AuthorEntity
+    fun fullUpdate(id: Long, authorEntity: AuthorEntity): AuthorEntity
+
+    fun partialUpdate(id: Long, authorEntity: AuthorUpdateRequest): AuthorEntity
 }

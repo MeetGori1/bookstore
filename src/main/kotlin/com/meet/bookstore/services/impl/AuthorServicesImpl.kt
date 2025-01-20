@@ -1,5 +1,6 @@
 package com.meet.bookstore.services.impl
 
+import com.meet.bookstore.domain.AuthorUpdateRequest
 import com.meet.bookstore.domain.entities.AuthorEntity
 import com.meet.bookstore.repositories.AuthorRepository
 import com.meet.bookstore.services.AuthorServices
@@ -27,5 +28,17 @@ class AuthorServicesImpl(private val authorRepository: AuthorRepository) : Autho
         check(authorRepository.existsById(id))
         val normalisedUser = authorEntity.copy(id = id)
         return authorRepository.save(normalisedUser)
+    }
+
+    override fun partialUpdate(id: Long, authorUpdate: AuthorUpdateRequest): AuthorEntity {
+        val existingAuthor = authorRepository.findByIdOrNull(id)
+        checkNotNull(existingAuthor)
+        val updatedAuthor = existingAuthor.copy(
+            name = authorUpdate.name ?: existingAuthor.name,
+            age = authorUpdate.age ?: existingAuthor.age,
+            description = authorUpdate.description ?: existingAuthor.description,
+            image = authorUpdate.image ?: existingAuthor.image,
+        )
+        return authorRepository.save(updatedAuthor)
     }
 }

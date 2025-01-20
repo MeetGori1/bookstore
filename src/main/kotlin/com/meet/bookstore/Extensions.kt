@@ -1,6 +1,8 @@
 package com.meet.bookstore
 
+import com.meet.bookstore.domain.AuthorUpdateRequest
 import com.meet.bookstore.domain.dtos.AuthorDto
+import com.meet.bookstore.domain.dtos.AuthorUpdateRequestDto
 import com.meet.bookstore.domain.entities.AuthorEntity
 
 fun AuthorEntity.toAuthorDto() = AuthorDto(
@@ -12,6 +14,14 @@ fun AuthorEntity.toAuthorDto() = AuthorDto(
 )
 
 fun AuthorDto .toAuthorEntity() = AuthorEntity(
+    id = this.id,
+    name = this.name,
+    age = this.age,
+    description = this.description,
+    image = this.image
+)
+
+fun AuthorUpdateRequestDto .toAuthorUpdateRequest() = AuthorUpdateRequest(
     id = this.id,
     name = this.name,
     age = this.age,
