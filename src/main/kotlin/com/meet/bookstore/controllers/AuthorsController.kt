@@ -22,7 +22,7 @@ class AuthorsController(private val authorServices: AuthorServices) {
             ).toAuthorDto()
             ResponseEntity(createdAuthor, HttpStatus.CREATED)
 
-        } catch(ex: IllegalArgumentException) {
+        } catch (ex: IllegalArgumentException) {
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
@@ -41,25 +41,34 @@ class AuthorsController(private val authorServices: AuthorServices) {
     }
 
 
-    @PutMapping(path=["/{id}"])
+    @PutMapping(path = ["/{id}"])
     fun fullUpdateAuthor(@PathVariable("id") id: Long, @RequestBody authorDto: AuthorDto): ResponseEntity<AuthorDto> {
         return try {
             val updatedAuthor = authorServices.fullUpdate(id, authorDto.toAuthorEntity())
             ResponseEntity(updatedAuthor.toAuthorDto(), HttpStatus.OK)
 
-        } catch(ex: IllegalStateException) {
+        } catch (ex: IllegalStateException) {
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 
-    @PutMapping(path=["/{id}"])
-    fun partialUpdateAuthor(@PathVariable("id") id: Long, @RequestBody authorUpdateDto: AuthorUpdateRequestDto): ResponseEntity<AuthorDto> {
+    @PatchMapping(path = ["/{id}"])
+    fun partialUpdateAuthor(
+        @PathVariable("id") id: Long,
+        @RequestBody authorUpdateDto: AuthorUpdateRequestDto
+    ): ResponseEntity<AuthorDto> {
         return try {
             val updatedAuthor = authorServices.partialUpdate(id, authorUpdateDto.toAuthorUpdateRequest())
             ResponseEntity(updatedAuthor.toAuthorDto(), HttpStatus.OK)
 
-        } catch(ex: IllegalStateException) {
+        } catch (ex: IllegalStateException) {
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    @DeleteMapping(path = ["/{id}"])
+    fun deleteAuthor(@PathVariable("id") id: Long): ResponseEntity<Unit> {
+        authorServices.delete(id)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 }
