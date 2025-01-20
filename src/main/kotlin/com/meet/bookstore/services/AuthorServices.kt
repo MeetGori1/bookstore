@@ -6,5 +6,7 @@ interface AuthorServices {
 
     fun save(authorEntity: AuthorEntity): AuthorEntity
 
-    fun list():List<AuthorEntity>
+    fun list(): List<AuthorEntity>
+
+    fun get(id: Long): AuthorEntity?
 }
