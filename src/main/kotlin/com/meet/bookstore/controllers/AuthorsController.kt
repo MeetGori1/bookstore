@@ -13,8 +13,16 @@ import org.springframework.web.bind.annotation.*
 class AuthorsController(private val authorServices: AuthorServices) {
 
     @PostMapping
-    fun createAuthor(@RequestBody authorDto: AuthorDto): AuthorDto {
-        return authorServices.save(authorDto.toAuthorEntity()).toAuthorDto()
+    fun createAuthor(@RequestBody authorDto: AuthorDto): ResponseEntity<AuthorDto> {
+        return try {
+            val createdAuthor = authorServices.create(
+                authorDto.toAuthorEntity()
+            ).toAuthorDto()
+            ResponseEntity(createdAuthor, HttpStatus.CREATED)
+
+        } catch(ex: IllegalArgumentException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
     }
 
     @GetMapping
@@ -28,5 +36,17 @@ class AuthorsController(private val authorServices: AuthorServices) {
         return foundAuthor?.let {
             ResponseEntity(it, HttpStatus.OK)
         } ?: ResponseEntity(HttpStatus.NOT_FOUND)
+    }
+
+
+    @PutMapping(path=["/{id}"])
+    fun fullUpdateAuthor(@PathVariable("id") id: Long, @RequestBody authorDto: AuthorDto): ResponseEntity<AuthorDto> {
+        return try {
+            val updatedAuthor = authorServices.fullUpdate(id, authorDto.toAuthorEntity())
+            ResponseEntity(updatedAuthor.toAuthorDto(), HttpStatus.OK)
+
+        } catch(ex: IllegalStateException) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
     }
 }
