@@ -68,7 +68,7 @@ fun BookSummaryDto.toBookSummary() = BookSummary(
     author = this.author.toAuthorSummary()
 )
 
-fun BookEntity.BookSummaryDto() = BookSummaryDto(
+fun BookEntity.toBookSummaryDto() = BookSummaryDto(
     isbn = this.isbn,
     title = this.title,
     description = this.description,
