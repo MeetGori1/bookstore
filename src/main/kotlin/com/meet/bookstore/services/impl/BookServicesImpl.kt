@@ -1,6 +1,7 @@
 package com.meet.bookstore.services.impl
 
 import com.meet.bookstore.domain.BookSummary
+import com.meet.bookstore.domain.BookUpdateRequest
 import com.meet.bookstore.domain.entities.BookEntity
 import com.meet.bookstore.repositories.AuthorRepository
 import com.meet.bookstore.repositories.BookRepository
@@ -31,6 +32,17 @@ class BookServicesImpl(private val bookRepository: BookRepository, private val a
 
     override fun get(isbn: String): BookEntity? {
         return bookRepository.findByIdOrNull(isbn)
+    }
+
+    override fun partialUpdate(isbn: String, bookUpdateRequest: BookUpdateRequest): BookEntity {
+        val existingBook = bookRepository.findByIdOrNull(isbn)
+        checkNotNull(existingBook)
+        existingBook.copy(
+            title = bookUpdateRequest.title ?: existingBook.title,
+            description = bookUpdateRequest.description ?: existingBook.description,
+            image = bookUpdateRequest.image ?: existingBook.image
+        )
+        return bookRepository.save(existingBook)
     }
 
 }

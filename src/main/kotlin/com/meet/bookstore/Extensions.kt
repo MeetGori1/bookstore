@@ -3,10 +3,8 @@ package com.meet.bookstore
 import com.meet.bookstore.domain.AuthorSummary
 import com.meet.bookstore.domain.AuthorUpdateRequest
 import com.meet.bookstore.domain.BookSummary
-import com.meet.bookstore.domain.dtos.AuthorDto
-import com.meet.bookstore.domain.dtos.AuthorSummaryDto
-import com.meet.bookstore.domain.dtos.AuthorUpdateRequestDto
-import com.meet.bookstore.domain.dtos.BookSummaryDto
+import com.meet.bookstore.domain.BookUpdateRequest
+import com.meet.bookstore.domain.dtos.*
 import com.meet.bookstore.domain.entities.AuthorEntity
 import com.meet.bookstore.domain.entities.BookEntity
 import com.meet.bookstore.exceptions.InvalidAuthorException
@@ -74,4 +72,10 @@ fun BookEntity.toBookSummaryDto() = BookSummaryDto(
     description = this.description,
     image = this.image,
     author = authorEntity.toAuthorSummaryDto()
+)
+
+fun BookUpdateRequestDto.toBookUpdateRequest()=BookUpdateRequest(
+    title = this.title,
+    description = this.description,
+    image=this.image
 )

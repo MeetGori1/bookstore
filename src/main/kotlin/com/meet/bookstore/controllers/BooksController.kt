@@ -2,12 +2,15 @@ package com.meet.bookstore.controllers
 
 import com.meet.bookstore.toBookSummaryDto
 import com.meet.bookstore.domain.dtos.BookSummaryDto
+import com.meet.bookstore.domain.dtos.BookUpdateRequestDto
 import com.meet.bookstore.exceptions.InvalidAuthorException
 import com.meet.bookstore.services.BookServices
 import com.meet.bookstore.toBookSummary
+import com.meet.bookstore.toBookUpdateRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -44,6 +47,19 @@ class BooksController(private val bookServices: BookServices) {
         return bookServices.get(isbn)?.let { ResponseEntity(it.toBookSummaryDto(), HttpStatus.OK) } ?: ResponseEntity(
             HttpStatus.NOT_FOUND
         )
+    }
+
+    @PatchMapping(path = ["/{isbn}"])
+    fun partialUpdateBook(
+        @PathVariable("isbn") isbn: String,
+        @RequestBody bookUpdateRequestDto: BookUpdateRequestDto
+    ): ResponseEntity<BookSummaryDto> {
+        try {
+            val updatedBook = bookServices.partialUpdate(isbn, bookUpdateRequestDto.toBookUpdateRequest())
+            return ResponseEntity(updatedBook.toBookSummaryDto(), HttpStatus.OK)
+        } catch (e: IllegalStateException) {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
     }
 
 }
