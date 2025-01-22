@@ -29,4 +29,8 @@ class BookServicesImpl(private val bookRepository: BookRepository, private val a
         } ?: bookRepository.findAll()
     }
 
+    override fun get(isbn: String): BookEntity? {
+        return bookRepository.findByIdOrNull(isbn)
+    }
+
 }

@@ -11,4 +11,6 @@ interface BookServices {
 
     fun list(authorId: Long?): List<BookEntity>
 
+    fun get(isbn: String): BookEntity?
+
 }
