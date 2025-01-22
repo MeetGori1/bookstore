@@ -45,4 +45,8 @@ class BookServicesImpl(private val bookRepository: BookRepository, private val a
         return bookRepository.save(existingBook)
     }
 
+    override fun delete(isbn: String) {
+        return bookRepository.deleteById(isbn)
+    }
+
 }
