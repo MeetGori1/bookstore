@@ -68,5 +68,4 @@ class BooksController(private val bookServices: BookServices) {
         bookServices.delete(isbn)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
-
 }
