@@ -55,7 +55,6 @@ fun AuthorSummaryDto.toAuthorSummary() = AuthorSummary(
     id = this.id,
     name = this.name,
     image = this.image
-
 )
 
 fun BookSummaryDto.toBookSummary() = BookSummary(
